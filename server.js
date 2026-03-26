@@ -4,6 +4,7 @@ const https = require("https");
 const http = require("http");
 const { createProxyMiddleware, responseInterceptor } = require("http-proxy-middleware");
 const cheerio = require("cheerio");
+const { registerSitemapRoutes } = require("./sitemap-routes");
 
 // ============================================================
 // CONFIGURATION
@@ -539,9 +540,13 @@ app.get("/robots.txt", (req, res) => {
 Allow: /
 
 Sitemap: ${proto}://${mirrorHost}/sitemap.xml
+Sitemap: ${proto}://${mirrorHost}/sitemap_index.xml
 `
   );
 });
+
+// ---- Yoast-style XML Sitemaps ----
+registerSitemapRoutes(app);
 
 // ============================================================
 // REVERSE PROXY
